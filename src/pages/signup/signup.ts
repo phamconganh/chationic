@@ -53,8 +53,10 @@ export class SignupPage {
         loader.dismiss();
         if (res.success)
           this.navCtrl.push(ProfilepicPage);
-        else
-          alert('Error' + res);
+        else{
+          toaster.setMessage('Signup error');
+          toaster.present();
+        }
       })
       .catch(err => {
         loader.dismiss();

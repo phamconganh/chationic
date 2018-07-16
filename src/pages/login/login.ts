@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, AlertController } from 'ionic-angular';
 
 import { usercreds } from '../../models/interfaces/userCreds';
 import { AuthProvider } from '../../providers/auth/auth';
@@ -16,17 +16,26 @@ export class LoginPage {
 
   credentials = {} as usercreds;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public authService: AuthProvider) {
+  constructor(private navCtrl: NavController, private authService: AuthProvider, private alertCtrl: AlertController) {
   }
 
-  // thieu alert error
   login() {
+    let alert = this.alertCtrl.create({
+      buttons: ['Ok']
+    });
     this.authService.login(this.credentials)
     .then((res: any) => {
       if (!res.code)
         this.navCtrl.setRoot(TabsPage);
-      else
-        alert(res);
+      else{
+        alert.setTitle('Login Error');
+        alert.present();
+      }
+    })
+    .catch(err => {
+      alert.setTitle('Login Error');
+      alert.setSubTitle(err.message);
+      alert.present();
     })
   }
 

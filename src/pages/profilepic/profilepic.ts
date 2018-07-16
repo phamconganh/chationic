@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { NavController, NavParams, LoadingController } from 'ionic-angular';
+import { NavController, AlertController, LoadingController } from 'ionic-angular';
 
 import { ImghandlerProvider } from '../../providers/imghandler/imghandler';
 import { UserProvider } from '../../providers/user/user';
@@ -19,7 +19,7 @@ export class ProfilepicPage {
 
   constructor(
     public navCtrl: NavController, 
-    public navParams: NavParams, 
+    public alertCtrl: AlertController,
     public imgservice: ImghandlerProvider,
     public zone: NgZone, 
     public userservice: UserProvider, 
@@ -41,16 +41,23 @@ export class ProfilepicPage {
       })
     })
     .catch(err => {
-      alert(err);
+      let alert = this.alertCtrl.create({
+        buttons: ['Ok']
+      });
+      alert.setTitle('Choose Image Error');
+      alert.setSubTitle(err.message);
+      alert.present();
     })
   }
 
   updateproceed() {
-    // chua UI cho err
     let loader = this.loadingCtrl.create({
       content: 'Please wait'
     })
     loader.present();
+    let alert = this.alertCtrl.create({
+      buttons: ['Ok']
+    });
     this.userservice.updateimage(this.imgurl)
     .then((res: any) => {
       loader.dismiss();
@@ -58,11 +65,14 @@ export class ProfilepicPage {
         this.navCtrl.setRoot(TabsPage);
       }
       else {
-        alert(res);
+        alert.setTitle('Update Image Error');
+        alert.present();
       }
     })
     .catch(err => {
-      alert(err);
+      alert.setTitle('Update Proceed Error');
+      alert.setSubTitle(err.message);
+      alert.present();
     })
   }
 

@@ -17,48 +17,40 @@ export class ImghandlerProvider {
   uploadimage() {
     let promise = new Promise((resolve, reject) => {
       this.filechooser.open()
-      .then(uri => resolve('done'))
-      .catch(e => reject(e));
-      // this.filechooser.open()
-      // .then((url) => {
-      //   console.log(url)
-        // (<any>window).FilePath.resolveNativePath(url, (result) => {;
-        //   this.nativepath = result;
-        //   (<any>window).resolveLocalFileSystemURL(this.nativepath, (res) => {
-        //     res.file((resFile) => {
-        //       let reader = new FileReader();
-        //       reader.readAsArrayBuffer(resFile);
-        //       reader.onloadend = (evt: any) => {
-        //         //type /*
-        //         let imgBlob = new Blob([evt.target.result], { type: 'image/jpeg' });
-        //         let imageStore = this.firestore.ref('/profileimages').child(firebase.auth().currentUser.uid);
-        //         imageStore.put(imgBlob)
-        //         .then((res) => {
-        //           this.firestore.ref('/profileimages')
-        //           .child(firebase.auth().currentUser.uid)
-        //           .getDownloadURL()
-        //           .then((url) => {
-        //             resolve(url);
-        //           }).catch((err) => {
-        //             console.log('profileimages');
-        //             // reject(err);
-        //             reject('profileimages');
-        //           })
-        //         }).catch((err) => {
-        //           console.log('firestore');
-        //           // reject(err);
-        //           reject('firestore');
-        //         })
-        //       }
-        //     })
-        //   })
-        // })
-    //   })
-    //   .catch(err => {
-    //     console.log('filechooser');
-    //     // reject(err);
-    //     reject('filechooser');
-    //   })
+      .then((url) => {
+        (<any>window).FilePath.resolveNativePath(url, (result) => {;
+          this.nativepath = result;
+          (<any>window).resolveLocalFileSystemURL(this.nativepath, (res) => {
+            res.file((resFile) => {
+              let reader = new FileReader();
+              reader.readAsArrayBuffer(resFile);
+              reader.onloadend = (evt: any) => {
+                //type /*
+                let imgBlob = new Blob([evt.target.result], { type: 'image/jpeg' });
+                let imageStore = this.firestore.ref('/profileimages').child(firebase.auth().currentUser.uid);
+                imageStore.put(imgBlob)
+                .then((res) => {
+                  this.firestore.ref('/profileimages')
+                  .child(firebase.auth().currentUser.uid)
+                  .getDownloadURL()
+                  .then((url) => {
+                    resolve(url);
+                  }).catch((err) => {
+                    console.log('profileimages');
+                    reject(err);
+                  })
+                }).catch((err) => {
+                  console.log('firestore');
+                  reject(err);
+                })
+              }
+            })
+          })
+        })
+      })
+      .catch(err => {
+        reject(err);
+      })
     })    
     return promise;   
   }

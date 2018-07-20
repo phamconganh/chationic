@@ -3,6 +3,7 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { Keyboard } from '@ionic-native/keyboard';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule, AngularFireAuth } from 'angularfire2/auth';
 import { FileChooser } from '@ionic-native/file-chooser';
@@ -38,7 +39,7 @@ import { ImghandlerProvider } from '../providers/imghandler/imghandler';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, { scrollAssist: false }),
     AngularFireModule.initializeApp(configFireBase),
     AngularFireAuthModule
   ],
@@ -57,6 +58,7 @@ import { ImghandlerProvider } from '../providers/imghandler/imghandler';
   providers: [
     StatusBar,
     SplashScreen,
+    Keyboard,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AngularFireAuth,
     AuthProvider,

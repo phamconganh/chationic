@@ -34,6 +34,7 @@ export class ProfilepicPage {
     loader.present();
     this.imgservice.uploadimage()
     .then((uploadedurl: any) => {
+      console.log(1)
       loader.dismiss();
       this.zone.run(() => {
         this.imgurl = uploadedurl;

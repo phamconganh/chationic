@@ -41,11 +41,12 @@ export class ProfilepicPage {
       })
     })
     .catch(err => {
+      loader.dismiss();
       let alert = this.alertCtrl.create({
         buttons: ['Ok']
       });
       alert.setTitle('Choose Image Error');
-      alert.setSubTitle(err.message);
+      alert.setSubTitle(err);
       alert.present();
     })
   }

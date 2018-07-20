@@ -71,6 +71,7 @@ export class ProfilepicPage {
       }
     })
     .catch(err => {
+      loader.dismiss();
       alert.setTitle('Update Proceed Error');
       alert.setSubTitle(err.message);
       alert.present();

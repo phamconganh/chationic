@@ -36,9 +36,11 @@ export class ImghandlerProvider {
                   .then((url) => {
                     resolve(url);
                   }).catch((err) => {
+                    console.log('profileimages');
                     reject(err);
                   })
                 }).catch((err) => {
+                  console.log('firestore');
                   reject(err);
                 })
               }
@@ -47,6 +49,7 @@ export class ImghandlerProvider {
         })
       })
       .catch(err => {
+        console.log('filechooser');
         reject(err);
       })
     })    
